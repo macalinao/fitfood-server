@@ -14,6 +14,7 @@ app.route('/oauth').get(function(req, res) {
   res.send(req.query);
 });
 
-var server = app.listen(3000, function() {
+var port = proccess.env.PORT || 3000;
+var server = app.listen(port, function() {
   console.log('Listening on port %d', server.address().port);
 });
