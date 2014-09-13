@@ -3,7 +3,7 @@
   "description": "The server for Fitfood",
   "author": "Ian Macalinao <me@ian.pw>",
   "version": "0.1.0",
-  "main", "app",
+  "main": "app",
   "dependencies": {
     "express": "^4.9.0",
     "jawbone-up": "^0.1.1",
