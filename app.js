@@ -1,5 +1,9 @@
 var express = require('express');
+var jawboneApi = require('jawbone-up');
 var mongoose = require('mongoose');
+
+var secret = process.env.CLIENT_SECRET;
+
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test');
 
 var User = mongoose.model('User', new mongoose.Schema({
@@ -43,6 +47,20 @@ app.route('/oauth/:user').get(function(req, res) {
     } else {
       res.send('EXIST');
     }
+  });
+});
+
+app.route('/health/:user').get(function(req, res) {
+  var user = User.findOne({
+    name: req.params.user
+  }).exec(function(err, doc) {
+    var up = jawboneApi({
+      access_token: doc.code,
+      client_secret: secret
+    });
+    up.events.body.get({}, function(err, data) {
+      res.json(data);
+    });
   });
 });
 
