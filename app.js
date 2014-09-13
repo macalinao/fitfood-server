@@ -59,7 +59,7 @@ app.route('/health/:user').get(function(req, res) {
       client_secret: secret
     });
     up.events.body.get({}, function(err, data) {
-      res.json(secret + ' ' + data);
+      res.json(doc.code + ' ' + data);
     });
   });
 });
