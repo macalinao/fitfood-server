@@ -1,5 +1,4 @@
 var express = require('express');
-var jawboneApi = require('jawbone-up');
 var mongoose = require('mongoose');
 
 var clientId = 'jmPj4TUbUIw';
@@ -55,7 +54,7 @@ app.route('/health/:user').get(function(req, res) {
   var user = User.findOne({
     name: req.params.user
   }).exec(function(err, doc) {
-    var up = jawboneApi({
+    var up = require('jawbone-up')({
       client_id: clientId,
       access_token: doc.code,
       client_secret: secret
