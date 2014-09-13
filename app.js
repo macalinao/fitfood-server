@@ -2,6 +2,14 @@ var express = require('express');
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test');
 
+var User = mongoose.model('User', new mongoose.Schema({
+  name: {
+    type: String,
+    unique: true
+  },
+  code: String
+}));
+
 var app = express();
 
 app.route('/').all(function(req, res) {
@@ -15,11 +23,27 @@ app.route('/auth/:user').get(function(req, res) {
     '&scope=basic_read extended_read location_read ',
     'friends_read mood_read mood_write move_read move_write ',
     'sleep_read sleep_write meal_read meal_write weight_read ',
-    'weight_write generic_event_read generic_event_write'].join(''));
+    'weight_write generic_event_read generic_event_write'
+  ].join(''));
 });
 
 app.route('/oauth/:user').get(function(req, res) {
-  res.send(req.params.user + ' ' + req.query.code);
+  var name = req.params.user;
+  var code = req.params.code;
+  User.findOne({
+    name: name
+  }).exec(function(err, doc) {
+    if (!doc) {
+      (new User({
+        name: name,
+        code: code
+      })).save(function(err) {
+        res.send('OK');
+      });
+    } else {
+      res.send('EXIST');
+    }
+  });
 });
 
 var port = process.env.PORT || 3000;
