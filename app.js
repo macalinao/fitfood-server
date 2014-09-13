@@ -17,7 +17,7 @@ app.route('/auth/:user').get(function(req, res) {
 });
 
 app.route('/oauth/:user').get(function(req, res) {
-  res.send(req.params.user + ' ' + req.query);
+  res.send(req.params.user + ' ' + req.query.code);
 });
 
 var port = process.env.PORT || 3000;
