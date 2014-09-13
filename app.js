@@ -2,6 +2,7 @@ var express = require('express');
 var jawboneApi = require('jawbone-up');
 var mongoose = require('mongoose');
 
+var clientId = 'jmPj4TUbUIw';
 var secret = process.env.CLIENT_SECRET;
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test');
@@ -22,7 +23,7 @@ app.route('/').all(function(req, res) {
 
 app.route('/auth/:user').get(function(req, res) {
   res.redirect(['https://jawbone.com/auth/oauth2/auth',
-    '?response_type=code&client_id=jmPj4TUbUIw',
+    '?response_type=code&client_id=' + clientId,
     '&redirect_uri=http://fitfood.herokuapp.com/oauth/' + req.params.user,
     '&scope=basic_read extended_read location_read ',
     'friends_read mood_read mood_write move_read move_write ',
@@ -55,6 +56,7 @@ app.route('/health/:user').get(function(req, res) {
     name: req.params.user
   }).exec(function(err, doc) {
     var up = jawboneApi({
+      client_id: clientId,
       access_token: doc.code,
       client_secret: secret
     });
