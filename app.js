@@ -29,7 +29,7 @@ app.route('/auth/:user').get(function(req, res) {
 
 app.route('/oauth/:user').get(function(req, res) {
   var name = req.params.user;
-  var code = req.params.code;
+  var code = req.query.code;
   User.findOne({
     name: name
   }).exec(function(err, doc) {
