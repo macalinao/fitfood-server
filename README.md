@@ -1,4 +1,4 @@
 fitfood-server
 ==============
 
-The server component of fitfood.
+[Defunct] The server component of fitfood.
